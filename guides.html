@@ -6,6 +6,122 @@
   <meta name="theme-color" content="#090b0d">
   <title>Global Era RP — Guides</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .rules-section {
+      margin-top: 40px;
+      padding-bottom: 60px;
+    }
+    .rules-header {
+      margin-bottom: 24px;
+    }
+    .rules-header h2 {
+      font-size: 28px;
+      margin: 8px 0 10px;
+      letter-spacing: -0.5px;
+    }
+    .rules-header h2 span { color: var(--gold); }
+    .rules-header p {
+      color: #8f989e;
+      max-width: 640px;
+      line-height: 1.55;
+      margin: 0;
+    }
+    .nrp-intro {
+      background: linear-gradient(135deg, #1a1214, #111518);
+      border: 1px solid #3a2528;
+      border-left: 4px solid #ff3131;
+      border-radius: 8px;
+      padding: 20px 22px;
+      margin-bottom: 22px;
+    }
+    .nrp-intro h3 {
+      margin: 0 0 8px;
+      color: #ff6b6b;
+      font-size: 16px;
+    }
+    .nrp-intro p {
+      margin: 0;
+      color: #c9b8b8;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .rules-list {
+      display: grid;
+      gap: 12px;
+    }
+    .rule-item {
+      background: #111518ee;
+      border: 1px solid #272e32;
+      border-radius: 8px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .rule-item:hover {
+      border-color: #3a454c;
+      transform: translateX(3px);
+    }
+    .rule-num {
+      flex: 0 0 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #1c2226;
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 13px;
+      display: grid;
+      place-items: center;
+    }
+    .rule-item.danger .rule-num {
+      background: #2a1515;
+      color: #ff6b6b;
+    }
+    .rule-body h4 {
+      margin: 0 0 4px;
+      font-size: 14px;
+      color: #eef1f2;
+    }
+    .rule-body p {
+      margin: 0;
+      font-size: 13px;
+      color: #8f989e;
+      line-height: 1.5;
+    }
+    .tip-box {
+      margin-top: 28px;
+      background: linear-gradient(135deg, #121a14, #111518);
+      border: 1px solid #2a3a2c;
+      border-left: 4px solid #3dd68c;
+      border-radius: 8px;
+      padding: 20px 22px;
+    }
+    .tip-box h3 {
+      margin: 0 0 8px;
+      color: #3dd68c;
+      font-size: 15px;
+    }
+    .tip-box p {
+      margin: 0;
+      color: #b8c9bc;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .rule-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag-red { background: #3a1515; color: #ff6b6b; }
+    .tag-gold { background: #2a2410; color: var(--gold); }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -16,6 +132,9 @@
 
     <nav class="nav">
       <a href="index.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="webstore.html">Webstore</a>
+      <a href="rewards.html">Daily Rewards</a>
       <a class="active" href="guides.html">Guides</a>
     </nav>
 
@@ -30,38 +149,220 @@
 
   <main class="guides-page">
     <section class="notice-bar">
-      <strong>Guide page:</strong> Use this section to understand the server options, the webstore layout, and the basic steps for getting started.
+      <strong>Guide page:</strong> Learn the basics, server options, and the official Roleplay rules before you join.
     </section>
 
     <section class="guides-hero">
       <span class="eyebrow">OFFICIAL GUIDES</span>
       <h1>PLAYER<br><span>GUIDE</span></h1>
-      <p>This page explains the key parts of the official server hub so new visitors know where to find servers, rewards, and store items.</p>
+      <p>Everything you need to start strong — from choosing a server to understanding real Roleplay quality.</p>
     </section>
 
     <section class="guides-grid">
       <article class="guide-card">
         <h3>Getting Started</h3>
-        <p>Open the home page first, review the notice, and use the guide links to learn what each section does.</p>
+        <p>Open the home page first, pick your region, claim daily rewards, and read the rules below before joining.</p>
       </article>
       <article class="guide-card">
         <h3>Choosing a Server</h3>
-        <p>The server selector shows the available regions so you can pick the one that best matches your location and play style.</p>
+        <p>Use the server selector (Africa / USA / UK / Arab) so you play with people near your location and timezone.</p>
       </article>
       <article class="guide-card">
         <h3>Making Progress</h3>
-        <p>Daily rewards and redeem codes are designed to give players extra currency, items, and event bonuses.</p>
+        <p>Daily rewards and redeem codes give you extra currency, items, and event bonuses to get started faster.</p>
       </article>
       <article class="guide-card">
         <h3>Using the Webstore</h3>
-        <p>The store preview demonstrates how products, bundles, and cases can be grouped for easier browsing.</p>
+        <p>Browse coins, bundles, and cases when you want to support the server or unlock extra value packs.</p>
       </article>
     </section>
 
-    <section class="guides-grid" style="margin-top:18px">
+    <!-- ========== RP RULES ========== -->
+    <section class="rules-section" id="rp-rules">
+      <div class="rules-header">
+        <span class="eyebrow">IMPORTANT</span>
+        <h2>ROLEPLAY RULES<br><span>&amp; NRP GUIDE</span></h2>
+        <p>Good Roleplay keeps the city alive. These rules protect the experience for everyone — break them and staff can take action.</p>
+      </div>
+
+      <div class="nrp-intro">
+        <h3>What is Non-Roleplay (NRP)?</h3>
+        <p>
+          Non-Roleplay means actions that are unrealistic, break immersion, or create poor-quality scenes.
+          If it would never make sense in a real city story — it’s probably NRP. Below are the most common examples on Global Era RP.
+        </p>
+      </div>
+
+      <div class="rules-list">
+
+        <div class="rule-item danger">
+          <div class="rule-num">01</div>
+          <div class="rule-body">
+            <h4>Cop Baiting <span class="rule-tag tag-red">NRP</span></h4>
+            <p>Provoking police or emergency services for no realistic reason. Don’t force scenes just for chaos.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">02</div>
+          <div class="rule-body">
+            <h4>Soldier Baiting <span class="rule-tag tag-red">NRP</span></h4>
+            <p>Provoking Army faction members without a proper story reason. Military is not your toy.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">03</div>
+          <div class="rule-body">
+            <h4>Base Gate Camping</h4>
+            <p>You can’t just gather near military base gates. Only allowed during official events.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">04</div>
+          <div class="rule-body">
+            <h4>Weapons Near Cops / Soldiers</h4>
+            <p>Don’t pull weapons in front of police or soldiers. They can arrest you — or open fire.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">05</div>
+          <div class="rule-body">
+            <h4>Open Carry in the City</h4>
+            <p>Openly carrying weapons in the city is forbidden. Keep it realistic and hidden unless the scene allows it.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">06</div>
+          <div class="rule-body">
+            <h4>Attacking Cops Without Reason</h4>
+            <p>Don’t attack a police officer when you are not wanted and they are not trying to arrest you.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">07</div>
+          <div class="rule-body">
+            <h4>Hostage Rules</h4>
+            <p>Taking cops or soldiers as hostages is not allowed. Choose realistic targets for serious scenes.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">08</div>
+          <div class="rule-body">
+            <h4>Mercy Killing</h4>
+            <p>Asking a friend to kill you so you can “reset” is NRP. Play out your injuries and consequences.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">09</div>
+          <div class="rule-body">
+            <h4>Unrealistic Stunts &amp; Ramming</h4>
+            <p>No movie stunts or using expensive vehicles just to ram others. Drive like a person who values their life and car.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">10</div>
+          <div class="rule-body">
+            <h4>Vehicle Spawning Abuse</h4>
+            <p>No spawning vehicles into water or abusing spawn systems to gain unfair advantage.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">11</div>
+          <div class="rule-body">
+            <h4>Unrealistic Swimming</h4>
+            <p>Don’t swim forever during a chase with no destination. Have a goal — or get out of the water.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">12</div>
+          <div class="rule-body">
+            <h4>Disconnecting Mid-RP</h4>
+            <p>If you disconnect during a scene, reconnect and inform the other players. Provide proof if you can’t return.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">13</div>
+          <div class="rule-body">
+            <h4>Ignoring RP Commands</h4>
+            <p>Answer roleplay commands directed at you (example: /do). Ignoring them kills the scene.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">14</div>
+          <div class="rule-body">
+            <h4>Going Out of Character</h4>
+            <p>Repeatedly breaking character during roleplay ruins immersion for everyone. Stay in character.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">15</div>
+          <div class="rule-body">
+            <h4>New Life Rule (NLR) <span class="rule-tag tag-red">STRICT</span></h4>
+            <p>After death, forget everything from the last 15 minutes. Do not return to the same place to hunt the players who killed you.</p>
+          </div>
+        </div>
+
+        <div class="rule-item danger">
+          <div class="rule-num">16</div>
+          <div class="rule-body">
+            <h4>Hospital Camping</h4>
+            <p>Do not wait near the hospital to kill or damage players who just respawned. Give them a chance to recover.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">17</div>
+          <div class="rule-body">
+            <h4>Respect Law Enforcement</h4>
+            <p>Act like you fear and respect the police. You should not want to get caught — play smart, not suicidal.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">18</div>
+          <div class="rule-body">
+            <h4>Reckless Driving</h4>
+            <p>Constant high speed, crashing into everything, and treating the city like a demolition derby is NRP.</p>
+          </div>
+        </div>
+
+        <div class="rule-item">
+          <div class="rule-num">19</div>
+          <div class="rule-body">
+            <h4>Hit &amp; Run Reality</h4>
+            <p>If you crash, react to it. Driving away like nothing happened breaks the story of the world.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tip-box">
+        <h3>Pro Tip — Play the Story, Not the Kill</h3>
+        <p>
+          The best scenes come from fear, negotiation, and consequences — not from who shoots first.
+          Treat every character (including your own) like a real person who wants to survive and build something in the city.
+          When in doubt: slow down, talk, and roleplay the outcome.
+        </p>
+      </div>
+    </section>
+
+    <section class="guides-grid" style="margin-top:10px">
       <article class="guide-card">
         <h3>Join the Discord</h3>
-        <p>Get updates, ask questions, and stay connected with the community through the official Discord server.</p>
+        <p>Get updates, ask questions about rules, and stay connected with the community.</p>
         <a class="back-link" href="https://discord.gg/aSEFdRGSB" target="_blank" rel="noopener noreferrer">Open Discord Invite →</a>
       </article>
     </section>
