@@ -188,3 +188,11 @@ footer{border-top:1px solid #23282b;background:#090b0dee;padding:30px 6.5%;displ
   footer{display:block;text-align:center}
 }
 
+.store-logo.play-icon,
+.store-logo.apple-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.store-logo.play-icon svg{ color:#00f076; }
+.store-logo.apple-icon svg{ color:#fff; }
