@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b0d">
+  <title>Global Era RP — Daily Rewards</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <style>
+    .claim-box, .redeem-box {
+      background: #111518ee;
+      border: 1px solid #272e32;
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .claim-box h2, .redeem-box h2 { margin-top: 0; color: var(--gold); }
+    .claim-status { color: #8f989e; margin: 12px 0 20px; font-size: 15px; }
+    .claim-btn, .redeem-btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 6px;
+      background: var(--gold);
+      color: #111;
+      font-weight: 900;
+      font-size: 14px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .claim-btn:disabled, .redeem-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .claim-result, .redeem-result {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      display: none;
+    }
+    .claim-result.success, .redeem-result.success { background: #0d2a1a; color: #3dd68c; display: block; }
+    .claim-result.error, .redeem-result.error { background: #2a0d0d; color: #ff6b6b; display: block; }
+    .streak-info { font-size: 13px; color: #8f989e; margin-top: 10px; }
+    .redeem-input {
+      width: 100%;
+      max-width: 280px;
+      padding: 12px 14px;
+      margin: 12px 0;
+      border-radius: 6px;
+      border: 1px solid #2d3439;
+      background: #11161a;
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <img class="brand-logo" src="https://uploads.onecompiler.io/44xsdhdtc/44xsenpqy/1000008266.png" alt="Global Era RP logo">
+      <span class="brand-name">GLOBAL <b>ERA</b> RP</span>
+    </a>
+
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="webstore.html">Webstore</a>
+      <a href="guides.html">Guides</a>
+    </nav>
+
+    <div class="account">
+      <span class="flag">🌍</span>
+      <span>EN</span>
+      <span class="avatar">●</span>
+      <strong>PLAYER</strong>
+      <span class="chevron">▼</span>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <section class="notice-bar">
+      <strong>Daily rewards:</strong> Check in every day to claim currency, starter items, and limited bonuses.
+    </section>
+
+    <section class="content-hero">
+      <span class="eyebrow">REWARDS</span>
+      <h1>DAILY<br><span>REWARDS</span></h1>
+      <p>Claim your daily reward below. Come back every day to build your streak and unlock better prizes.</p>
+      <a class="back-link" href="index.html">← Back to Home</a>
+    </section>
+
+    <!-- DAILY CLAIM -->
+    <div class="claim-box">
+      <h2>Claim Your Daily Reward</h2>
+      <p class="claim-status" id="claimStatus">Checking status...</p>
+      <button class="claim-btn" id="claimBtn" disabled>CLAIM REWARD</button>
+      <div class="claim-result" id="claimResult"></div>
+      <div class="streak-info" id="streakInfo"></div>
+    </div>
+
+    <!-- REDEEM CODE -->
+    <div class="redeem-box">
+      <h2>Redeem Code</h2>
+      <p style="color:#8f989e;margin:0 0 8px">Enter a promo code to claim extra rewards</p>
+      <input class="redeem-input" id="redeemCode" type="text" placeholder="ENTER CODE" maxlength="30">
+      <br>
+      <button class="redeem-btn" id="redeemBtn">REDEEM</button>
+      <div class="redeem-result" id="redeemResult"></div>
+    </div>
+
+    <section class="content-body">
+      <article class="content-card">
+        <h3>Login Rewards</h3>
+        <p>Daily check-ins grant coins, items, or progress boosts depending on your current streak day.</p>
+      </article>
+      <article class="content-card">
+        <h3>7-Day Cycle</h3>
+        <p>Day 1: 50 Coins → Day 2: 100 Coins → Day 3: Starter Pack → ... → Day 7: Premium Bundle</p>
+      </article>
+      <article class="content-card">
+        <h3>New Player Help</h3>
+        <p>Starter rewards help you build up your account before regular gameplay.</p>
+      </article>
+      <article class="content-card">
+        <h3>Default Codes</h3>
+        <p>Try <strong>WELCOME100</strong> or <strong>LAUNCH50</strong> while testing.</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    // API helper
+    function api(path, options = {}) {
+      return fetch((typeof API_BASE !== "undefined" ? API_BASE : "") + path, options);
+    }
+
+    // ===== DAILY REWARDS =====
+    const claimBtn = document.getElementById("claimBtn");
+    const claimStatus = document.getElementById("claimStatus");
+    const claimResult = document.getElementById("claimResult");
+    const streakInfo = document.getElementById("streakInfo");
+
+    async function loadStatus() {
+      try {
+        const res = await api("/api/rewards/status");
+        const data = await res.json();
+
+        if (data.can_claim) {
+          claimStatus.textContent = "You can claim your reward right now!";
+          claimBtn.disabled = false;
+        } else {
+          claimStatus.textContent = `Next claim available in ${data.next_claim_in_hours} hours.`;
+          claimBtn.disabled = true;
+        }
+        streakInfo.textContent = `Current streak: ${data.streak} day(s) • Total claims: ${data.total_claims}`;
+      } catch (err) {
+        claimStatus.textContent = "Could not reach the server. Make sure the backend is running.";
+        claimBtn.disabled = true;
+      }
+    }
+
+    claimBtn.addEventListener("click", async () => {
+      claimBtn.disabled = true;
+      claimBtn.textContent = "CLAIMING...";
+      claimResult.className = "claim-result";
+      claimResult.style.display = "none";
+
+      try {
+        const res = await api("/api/rewards/claim", { method: "POST" });
+        const data = await res.json();
+
+        if (data.success) {
+          claimResult.className = "claim-result success";
+          claimResult.textContent = data.message + " → " + data.reward;
+          claimResult.style.display = "block";
+          streakInfo.textContent = `Current streak: ${data.streak} day(s) • Total claims: ${data.total_claims}`;
+          claimStatus.textContent = "Come back tomorrow for the next reward!";
+        } else {
+          claimResult.className = "claim-result error";
+          claimResult.textContent = data.message;
+          claimResult.style.display = "block";
+          claimBtn.disabled = false;
+        }
+      } catch (err) {
+        claimResult.className = "claim-result error";
+        claimResult.textContent = "Network error. Is the backend running?";
+        claimResult.style.display = "block";
+        claimBtn.disabled = false;
+      }
+      claimBtn.textContent = "CLAIM REWARD";
+    });
+
+    // ===== REDEEM CODE =====
+    const redeemBtn = document.getElementById("redeemBtn");
+    const redeemCode = document.getElementById("redeemCode");
+    const redeemResult = document.getElementById("redeemResult");
+
+    redeemBtn.addEventListener("click", async () => {
+      const code = redeemCode.value.trim();
+      if (!code) {
+        redeemResult.className = "redeem-result error";
+        redeemResult.textContent = "Please enter a code.";
+        redeemResult.style.display = "block";
+        return;
+      }
+
+      redeemBtn.disabled = true;
+      redeemBtn.textContent = "CHECKING...";
+      redeemResult.style.display = "none";
+
+      try {
+        const res = await api("/api/redeem", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          redeemResult.className = "redeem-result success";
+          redeemResult.textContent = data.message;
+          redeemCode.value = "";
+        } else {
+          redeemResult.className = "redeem-result error";
+          redeemResult.textContent = data.message || "Invalid code.";
+        }
+        redeemResult.style.display = "block";
+      } catch (err) {
+        redeemResult.className = "redeem-result error";
+        redeemResult.textContent = "Network error. Is the backend running?";
+        redeemResult.style.display = "block";
+      }
+
+      redeemBtn.disabled = false;
+      redeemBtn.textContent = "REDEEM";
+    });
+
+    // Allow Enter key
+    redeemCode.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") redeemBtn.click();
+    });
+
+    loadStatus();
+  </script>
+</body>
+</html>

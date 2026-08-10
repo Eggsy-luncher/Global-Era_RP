@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Game Launch Announcement",
+    "slug": "news-launch",
+    "summary": "Track the expected release timeline, server details, and the first public update.",
+    "date": "2026-08-01",
+    "category": "Coming Soon"
+  },
+  {
+    "id": "2",
+    "title": "Community Preparations",
+    "slug": "news-community",
+    "summary": "See what content is being prepared for new players.",
+    "date": "2026-08-05",
+    "category": "New"
+  },
+  {
+    "id": "3",
+    "title": "What to Expect",
+    "slug": "news-expectations",
+    "summary": "Learn what features and gameplay systems are being highlighted.",
+    "date": "2026-08-08",
+    "category": "Info"
+  }
+]

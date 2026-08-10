@@ -1,0 +1,23 @@
+[
+  {
+    "code": "WELCOME100",
+    "reward": "100 State Coins",
+    "max_uses": 1000,
+    "used": 1,
+    "active": true
+  },
+  {
+    "code": "LAUNCH50",
+    "reward": "50 State Coins + Starter Pack",
+    "max_uses": 500,
+    "used": 0,
+    "active": true
+  },
+  {
+    "code": "NEW HERE",
+    "reward": "",
+    "max_uses": 100,
+    "used": 1,
+    "active": true
+  }
+]

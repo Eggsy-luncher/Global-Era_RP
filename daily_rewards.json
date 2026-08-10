@@ -1,0 +1,33 @@
+{
+  "rewards": [
+    {
+      "day": 1,
+      "reward": "50 State Coins"
+    },
+    {
+      "day": 2,
+      "reward": "100 State Coins"
+    },
+    {
+      "day": 3,
+      "reward": "Starter Pack"
+    },
+    {
+      "day": 4,
+      "reward": "150 State Coins"
+    },
+    {
+      "day": 5,
+      "reward": "Random Case"
+    },
+    {
+      "day": 6,
+      "reward": "200 State Coins"
+    },
+    {
+      "day": 7,
+      "reward": "Premium Bundle"
+    }
+  ],
+  "cooldown_hours": 20
+}

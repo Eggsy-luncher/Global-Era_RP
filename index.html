@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b0d">
+  <meta name="google-site-verification" content="google02ed56078ab9be5a">
+  <title>Global Era RP</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ==========================================
+       INTRO VIDEO SPLASH OVERLAY STYLES
+       ========================================== */
+    #intro-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #07090b;
+      z-index: 99999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #intro-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #introVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .skip-intro-btn {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 0.75rem 1.75rem;
+      background: rgba(9, 11, 13, 0.75);
+      color: #00f0ff;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      border-radius: 99px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+      transition: all 0.3s ease;
+      z-index: 100000;
+    }
+
+    .skip-intro-btn:hover {
+      background: #00f0ff;
+      color: #000;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="intro-overlay">
+    <div class="intro-video-container">
+      <video id="introVideo" autoplay muted playsinline>
+        <source src="gemini_generated_video_cd68e644.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button class="skip-intro-btn" id="skipIntroBtn" type="button">Skip Intro ➔</button>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <img class="brand-logo" src="https://uploads.onecompiler.io/44xsdhdtc/44xsenpqy/1000008266.png" alt="Global Era RP logo">
+      <span class="brand-name">GLOBAL <b>ERA</b> RP</span>
+    </a>
+
+    <div class="server-select-wrap">
+      <button class="server-select-btn" id="serverSelectBtn" type="button">Choose server ▼</button>
+      <div class="server-select-menu" id="serverSelectMenu">
+        <button class="server-select-option" data-server="Africa" data-flag="🇿🇦" type="button">Africa</button>
+        <button class="server-select-option" data-server="USA" data-flag="🇺🇸" type="button">USA</button>
+        <button class="server-select-option" data-server="UK" data-flag="🇬🇧" type="button">UK</button>
+        <button class="server-select-option" data-server="Arab" data-flag="🇦🇪" type="button">Arab</button>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="active" href="index.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="webstore.html">Webstore</a>
+      <a href="rewards.html">Daily Rewards</a>
+      <a href="guides.html">Guides</a>
+    </nav>
+
+    <div class="account">
+      <span class="flag" id="topFlag">🌍</span>
+      <span id="topRegion">EN</span>
+      <span class="avatar">●</span>
+      <strong>PLAYER</strong>
+      <span class="chevron">▼</span>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="notice-bar">
+      <strong>Welcome:</strong> This is the official Global Era RP website for server info, guides, rewards, news, and the webstore.
+    </section>
+
+    <section class="hero" id="news">
+      <div class="city">
+        <div class="sun"></div>
+        <div class="moon"></div>
+        <div class="skyline skyline-back"></div>
+        <div class="tower t1"></div>
+        <div class="tower t2"></div>
+        <div class="tower t3"></div>
+        <div class="tower t4"></div>
+        <div class="palms">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-copy">
+          <span class="eyebrow">OFFICIAL SERVER HUB</span>
+          <h1>RP<br><span>PLAYER HUB</span></h1>
+          <p>Find server options, read the latest updates, and visit the official webstore page for bundles, cases, and rewards.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="webstore.html">VISIT THE WEBSTORE</a>
+            <a class="btn ghost" href="guides.html">READ THE STARTER GUIDE</a>
+            <a class="btn ghost" href="https://discord.gg/aSEFdRGSB" target="_blank" rel="noopener noreferrer">JOIN OUR DISCORD</a>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <div class="store-card">
+            <div class="store-card-title">Get it on</div>
+            <div class="store-badges">
+              <a class="store-badge" href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" aria-label="Get it on Google Play">
+                <span class="store-logo">▶</span>
+                <div>
+                  <small>GET IT ON</small>
+                  <b>Google Play</b>
+                </div>
+              </a>
+              <a class="store-badge" href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer" aria-label="Download on the App Store">
+                <span class="store-logo apple"></span>
+                <div>
+                  <small>DOWNLOAD ON THE</small>
+                  <b>App Store</b>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-grid" id="rewards">
+      <article>
+        <span class="info-icon">◈</span>
+        <div><h3>Daily Rewards</h3><p>Check in each day to claim coins, bonus items, or event perks that help new players get started.</p></div>
+      </article>
+      <article id="redeem">
+        <span class="info-icon">⌁</span>
+        <div><h3>Redeem Codes</h3><p>Use promo codes from announcements or events to unlock limited-time bonuses and rewards.</p></div>
+      </article>
+      <article id="guides">
+        <span class="info-icon">?</span>
+        <div><h3>Player Guides</h3><p>Read beginner tips, server choices, and money-making basics before you join the game.</p></div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">GLOBAL <b>ERA</b> RP</div>
+    <p>Official server hub for player info, guides, and the webstore.</p>
+  </footer>
+
+  <div class="floating">◷</div>
+  <div class="support">◉</div>
+
+  <script src="script.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const introOverlay = document.getElementById("intro-overlay");
+      const introVideo = document.getElementById("introVideo");
+      const skipBtn = document.getElementById("skipIntroBtn");
+
+      function dismissIntro() {
+        if (!introOverlay.classList.contains("fade-out")) {
+          introOverlay.classList.add("fade-out");
+          
+          setTimeout(() => {
+            introVideo.pause();
+          }, 800);
+        }
+      }
+
+      if (sessionStorage.getItem("globalEraIntroPlayed") === "true") {
+        introOverlay.style.display = "none";
+      } else {
+        sessionStorage.setItem("globalEraIntroPlayed", "true");
+        introVideo.addEventListener("ended", dismissIntro);
+        skipBtn.addEventListener("click", dismissIntro);
+
+        setTimeout(() => {
+          dismissIntro();
+        }, 10000);
+      }
+    });
+  </script>
+</body>
+</html>
