@@ -51,6 +51,15 @@
       padding: 0;
       font-family: inherit;
     }
+    .news-card img.news-image {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 0 0 14px;
+      border: 1px solid #272e32;
+      background: #0d1117;
+    }
     .news-empty, .news-error {
       text-align: center;
       color: #8f989e;
@@ -64,7 +73,6 @@
       <img class="brand-logo" src="https://uploads.onecompiler.io/44xsdhdtc/44xsenpqy/1000008266.png" alt="Global Era RP logo">
       <span class="brand-name">GLOBAL <b>ERA</b> RP</span>
     </a>
-
     <nav class="nav">
       <a href="index.html">Home</a>
       <a class="active" href="news.html">News</a>
@@ -72,7 +80,6 @@
       <a href="rewards.html">Daily Rewards</a>
       <a href="guides.html">Guides</a>
     </nav>
-
     <div class="account">
       <span class="flag">🌍</span>
       <span>EN</span>
@@ -86,13 +93,11 @@
     <section class="notice-bar">
       <strong>News hub:</strong> Official announcements, events, and updates from Global Era RP.
     </section>
-
     <section class="content-hero">
       <span class="eyebrow">LATEST NEWS</span>
       <h1>NEWS<br><span>UPDATES</span></h1>
       <p>Announcements posted by staff appear here automatically.</p>
     </section>
-
     <section class="news-list" id="newsList">
       <div class="news-empty">Loading announcements...</div>
     </section>
@@ -102,7 +107,6 @@
     function api(path) {
       return fetch((typeof API_BASE !== "undefined" ? API_BASE : "") + path);
     }
-
     function escapeHtml(s) {
       return String(s || "")
         .replace(/&/g, "&amp;")
@@ -110,22 +114,21 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
     }
-
     async function loadNews() {
       const box = document.getElementById("newsList");
       try {
         const res = await api("/api/news");
         const list = await res.json();
-
         if (!Array.isArray(list) || !list.length) {
           box.innerHTML = '<div class="news-empty">No announcements yet. Check back soon.</div>';
           return;
         }
-
         box.innerHTML = list.map((n) => {
           const hasBody = !!(n.body && n.body.trim());
+          const img = n.image ? `<img class="news-image" src="${escapeHtml(n.image)}" alt="">` : "";
           return `
             <article class="news-card" id="news-${escapeHtml(n.id)}">
+              ${img}
               <span class="cat">${escapeHtml(n.category || "Update")}</span>
               <h3>${escapeHtml(n.title)}</h3>
               <div class="date">${escapeHtml(n.date || "")}</div>
@@ -137,7 +140,6 @@
             </article>
           `;
         }).join("");
-
         box.querySelectorAll(".toggle").forEach(btn => {
           btn.addEventListener("click", () => {
             const card = document.getElementById("news-" + btn.dataset.id);
@@ -150,7 +152,6 @@
         box.innerHTML = '<div class="news-error">Could not load news. Make sure the backend is online.</div>';
       }
     }
-
     loadNews();
   </script>
 </body>

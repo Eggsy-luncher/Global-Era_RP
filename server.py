@@ -36,9 +36,9 @@ def init_data():
         ])
     if not os.path.exists(NEWS_FILE):
         save_json(NEWS_FILE, [
-            {"id": "1", "title": "Game Launch Announcement", "summary": "Release timeline and server details.", "body": "", "date": "2026-08-01", "category": "Coming Soon"},
-            {"id": "2", "title": "Community Preparations", "summary": "Guides, rewards, and store info.", "body": "", "date": "2026-08-05", "category": "New"},
-            {"id": "3", "title": "What to Expect", "summary": "Features highlighted before launch.", "body": "", "date": "2026-08-08", "category": "Info"},
+            {"id": "1", "title": "Game Launch Announcement", "summary": "Release timeline and server details.", "body": "", "image": "", "date": "2026-08-01", "category": "Coming Soon"},
+            {"id": "2", "title": "Community Preparations", "summary": "Guides, rewards, and store info.", "body": "", "image": "", "date": "2026-08-05", "category": "New"},
+            {"id": "3", "title": "What to Expect", "summary": "Features highlighted before launch.", "body": "", "image": "", "date": "2026-08-08", "category": "Info"},
         ])
     if not os.path.exists(REWARDS_FILE):
         save_json(REWARDS_FILE, {"rewards": [
@@ -188,12 +188,16 @@ class Handler(SimpleHTTPRequestHandler):
     def add_news(self, data):
         if not self.is_admin():
             return self.json_response({"error": "Unauthorized"}, 401)
+        image = (data.get("image") or "").strip()
+        if image.startswith("data:") and len(image) > 1500000:
+            return self.json_response({"error": "Image too large. Use under 1MB or an image URL."}, 400)
         news = load_json(NEWS_FILE, [])
         item = {
             "id": str(uuid.uuid4())[:8],
             "title": (data.get("title") or "Untitled").strip(),
             "summary": (data.get("summary") or "").strip(),
             "body": (data.get("body") or "").strip(),
+            "image": image,
             "date": data.get("date") or datetime.now().strftime("%Y-%m-%d"),
             "category": (data.get("category") or "Update").strip()
         }
@@ -221,34 +225,58 @@ input,textarea,select,button{width:100%;padding:10px;margin:6px 0;border-radius:
 button{background:#f5cf22;color:#000;font-weight:bold;border:0;cursor:pointer}
 button.danger{background:#da3633;color:#fff;width:auto}
 .item{background:#0d1117;border:1px solid #30363d;padding:10px;margin:8px 0;border-radius:6px}
+label{display:block;margin-top:8px;color:#8b949e;font-size:12px}
 .ok{color:#3dd68c}.err{color:#ff6b6b}
+#imagePreview{display:none;max-width:100%;max-height:180px;margin-top:8px;border-radius:8px;border:1px solid #30363d}
 </style></head><body>
 <h1>GLOBAL ERA RP Admin</h1>
 <div class="card"><h2>Publish News</h2>
 <input id="title" placeholder="Title">
-<select id="category"><option>Update</option><option>Event</option><option>Announcement</option><option>Info</option></select>
+<select id="category"><option>Update</option><option>Event</option><option>Announcement</option><option>Info</option><option>Coming Soon</option></select>
 <input id="summary" placeholder="Short summary">
 <textarea id="body" rows="4" placeholder="Full text"></textarea>
-<button onclick="publish()">Publish</button><pre id="result"></pre></div>
-<div class="card"><h2>News List</h2><button onclick="loadNews()" style="width:auto">Refresh</button><div id="list"></div></div>
+<label>Image URL (optional)</label>
+<input id="imageUrl" placeholder="https://example.com/photo.jpg">
+<label>Or upload image (under 1MB)</label>
+<input id="imageFile" type="file" accept="image/*">
+<img id="imagePreview" alt="preview">
+<button onclick="publish()">Publish</button>
+<pre id="result"></pre></div>
+<div class="card"><h2>News List</h2>
+<button onclick="loadNews()" style="width:auto">Refresh</button>
+<div id="list"></div></div>
 <div class="card"><h2>Redeem Code</h2>
 <input id="code" placeholder="CODE"><input id="reward" placeholder="Reward">
-<input id="max" type="number" value="100"><button onclick="createCode()">Create</button><pre id="codeOut"></pre></div>
+<input id="max" type="number" value="100"><button onclick="createCode()">Create</button>
+<pre id="codeOut"></pre></div>
 <script>
 let pwd=sessionStorage.getItem("pwd")||prompt("Admin password:")||"";
 sessionStorage.setItem("pwd",pwd);
 const H=()=>({"Content-Type":"application/json","X-Admin-Password":pwd});
+let pendingImage="";
+document.getElementById("imageFile").addEventListener("change",function(e){
+  const file=e.target.files[0];
+  if(!file){pendingImage="";imagePreview.style.display="none";return;}
+  if(file.size>1000000){alert("Image must be under 1MB");e.target.value="";return;}
+  const reader=new FileReader();
+  reader.onload=function(){pendingImage=reader.result;imagePreview.src=pendingImage;imagePreview.style.display="block";imageUrl.value="";};
+  reader.readAsDataURL(file);
+});
+document.getElementById("imageUrl").addEventListener("input",function(){
+  if(this.value.trim()){pendingImage="";imageFile.value="";imagePreview.src=this.value.trim();imagePreview.style.display="block";imagePreview.onerror=function(){imagePreview.style.display="none";};}
+});
 async function publish(){
-  const r=await fetch("/api/news",{method:"POST",headers:H(),body:JSON.stringify({title:title.value,category:category.value,summary:summary.value,body:body.value})});
+  const image=pendingImage||imageUrl.value.trim();
+  const r=await fetch("/api/news",{method:"POST",headers:H(),body:JSON.stringify({title:title.value,category:category.value,summary:summary.value,body:body.value,image:image})});
   const d=await r.json();
   result.innerHTML=r.ok?'<span class="ok">Published</span>':'<span class="err">'+(d.error||"fail")+'</span>';
-  if(r.ok){title.value="";summary.value="";body.value="";loadNews();}
+  if(r.ok){title.value="";summary.value="";body.value="";imageUrl.value="";imageFile.value="";pendingImage="";imagePreview.style.display="none";loadNews();}
 }
 async function loadNews(){
   const list=await(await fetch("/api/news")).json();
   const box=document.getElementById("list");
   if(!list.length){box.innerHTML="No posts";return;}
-  box.innerHTML=list.map(n=>'<div class="item"><b>'+n.title+'</b><br><small>'+n.category+' · '+n.date+'</small><br>'+(n.summary||'')+'<br><button class="danger" data-id="'+n.id+'">Delete</button></div>').join("");
+  box.innerHTML=list.map(n=>'<div class="item">'+(n.image?'<img src="'+n.image+'" style="max-width:100%;max-height:120px;border-radius:6px;margin-bottom:8px;display:block">':'')+'<b>'+n.title+'</b><br><small>'+n.category+' · '+n.date+'</small><br>'+(n.summary||'')+'<br><button class="danger" data-id="'+n.id+'">Delete</button></div>').join("");
   box.querySelectorAll("button.danger").forEach(b=>b.onclick=()=>del(b.getAttribute("data-id")));
 }
 async function del(id){
