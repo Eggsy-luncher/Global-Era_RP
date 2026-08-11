@@ -6,66 +6,6 @@
   <meta name="theme-color" content="#090b0d">
   <title>Global Era RP — News</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="config.js"></script>
-  <style>
-    .news-list { display: grid; gap: 16px; }
-    .news-card {
-      background: #111518ee;
-      border: 1px solid #272e32;
-      border-radius: 8px;
-      padding: 22px;
-      display: block;
-      transition: border-color 0.2s;
-    }
-    .news-card:hover { border-color: #3a454c; }
-    .news-card .cat {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-    .news-card h3 { margin: 0 0 8px; font-size: 18px; }
-    .news-card .date { font-size: 12px; color: #6e7681; margin-bottom: 10px; }
-    .news-card p { color: #8f989e; line-height: 1.5; margin: 0 0 10px; }
-    .news-card .body {
-      color: #c0c5c9;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid #272e32;
-      white-space: pre-wrap;
-      display: none;
-    }
-    .news-card.open .body { display: block; }
-    .news-card .toggle {
-      color: var(--gold);
-      font-weight: 900;
-      font-size: 13px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      font-family: inherit;
-    }
-    .news-card img.news-image {
-      width: 100%;
-      max-height: 280px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin: 0 0 14px;
-      border: 1px solid #272e32;
-      background: #0d1117;
-    }
-    .news-empty, .news-error {
-      text-align: center;
-      color: #8f989e;
-      padding: 40px 20px;
-    }
-  </style>
 </head>
 <body>
   <header class="topbar">
@@ -73,13 +13,13 @@
       <img class="brand-logo" src="https://uploads.onecompiler.io/44xsdhdtc/44xsenpqy/1000008266.png" alt="Global Era RP logo">
       <span class="brand-name">GLOBAL <b>ERA</b> RP</span>
     </a>
+
     <nav class="nav">
       <a href="index.html">Home</a>
       <a class="active" href="news.html">News</a>
-      <a href="webstore.html">Webstore</a>
-      <a href="rewards.html">Daily Rewards</a>
       <a href="guides.html">Guides</a>
     </nav>
+
     <div class="account">
       <span class="flag">🌍</span>
       <span>EN</span>
@@ -91,68 +31,32 @@
 
   <main class="content-page">
     <section class="notice-bar">
-      <strong>News hub:</strong> Official announcements, events, and updates from Global Era RP.
+      <strong>News hub:</strong> Browse updates, launch info, and community prep notes for the official RP project.
     </section>
+
     <section class="content-hero">
       <span class="eyebrow">LATEST NEWS</span>
       <h1>NEWS<br><span>UPDATES</span></h1>
-      <p>Announcements posted by staff appear here automatically.</p>
+      <p>This section collects short article previews so visitors can quickly find launch information, prep notes, and what to expect next.</p>
     </section>
-    <section class="news-list" id="newsList">
-      <div class="news-empty">Loading announcements...</div>
+
+    <section class="content-body">
+      <a class="content-card" href="news-launch.html">
+        <h3>Game Launch Announcement</h3>
+        <p>Track the expected release timeline, server details, and the first public update for the project.</p>
+        <span class="back-link">Read more →</span>
+      </a>
+      <a class="content-card" href="news-community.html">
+        <h3>Community Preparations</h3>
+        <p>See what content is being prepared for new players, including guides, rewards, and store information.</p>
+        <span class="back-link">Read more →</span>
+      </a>
+      <a class="content-card" href="news-expectations.html">
+        <h3>What to Expect</h3>
+        <p>Learn what features and gameplay systems the official site is highlighting before launch.</p>
+        <span class="back-link">Read more →</span>
+      </a>
     </section>
   </main>
-
-  <script>
-    function api(path) {
-      return fetch((typeof API_BASE !== "undefined" ? API_BASE : "") + path);
-    }
-    function escapeHtml(s) {
-      return String(s || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-    async function loadNews() {
-      const box = document.getElementById("newsList");
-      try {
-        const res = await api("/api/news");
-        const list = await res.json();
-        if (!Array.isArray(list) || !list.length) {
-          box.innerHTML = '<div class="news-empty">No announcements yet. Check back soon.</div>';
-          return;
-        }
-        box.innerHTML = list.map((n) => {
-          const hasBody = !!(n.body && n.body.trim());
-          const img = n.image ? `<img class="news-image" src="${escapeHtml(n.image)}" alt="">` : "";
-          return `
-            <article class="news-card" id="news-${escapeHtml(n.id)}">
-              ${img}
-              <span class="cat">${escapeHtml(n.category || "Update")}</span>
-              <h3>${escapeHtml(n.title)}</h3>
-              <div class="date">${escapeHtml(n.date || "")}</div>
-              <p>${escapeHtml(n.summary || "")}</p>
-              ${hasBody ? `
-                <button type="button" class="toggle" data-id="${escapeHtml(n.id)}">Read more →</button>
-                <div class="body">${escapeHtml(n.body)}</div>
-              ` : ""}
-            </article>
-          `;
-        }).join("");
-        box.querySelectorAll(".toggle").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const card = document.getElementById("news-" + btn.dataset.id);
-            if (!card) return;
-            card.classList.toggle("open");
-            btn.textContent = card.classList.contains("open") ? "Show less ↑" : "Read more →";
-          });
-        });
-      } catch (e) {
-        box.innerHTML = '<div class="news-error">Could not load news. Make sure the backend is online.</div>';
-      }
-    }
-    loadNews();
-  </script>
 </body>
 </html>
