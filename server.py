@@ -237,7 +237,7 @@ label{display:block;margin-top:8px;color:#8b949e;font-size:12px}
 <textarea id="body" rows="4" placeholder="Full text"></textarea>
 <label>Image URL (optional)</label>
 <input id="imageUrl" placeholder="https://example.com/photo.jpg">
-<label>Or upload image (under 1MB)</label>
+<label>Or upload image (under 5MB)</label>
 <input id="imageFile" type="file" accept="image/*">
 <img id="imagePreview" alt="preview">
 <button onclick="publish()">Publish</button>
@@ -257,7 +257,7 @@ let pendingImage="";
 document.getElementById("imageFile").addEventListener("change",function(e){
   const file=e.target.files[0];
   if(!file){pendingImage="";imagePreview.style.display="none";return;}
-  if(file.size>1000000){alert("Image must be under 1MB");e.target.value="";return;}
+  if(file.size>1000000){alert("Image must be under 5MB");e.target.value="";return;}
   const reader=new FileReader();
   reader.onload=function(){pendingImage=reader.result;imagePreview.src=pendingImage;imagePreview.style.display="block";imageUrl.value="";};
   reader.readAsDataURL(file);
