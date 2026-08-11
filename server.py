@@ -565,7 +565,6 @@ class Handler(SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         print(f"[{datetime.now().strftime('%H:%M:%S')}] {args[0]}")
 
-
 if __name__ == "__main__":
     print("=" * 50)
     print("  GLOBAL ERA RP — Backend")
@@ -578,5 +577,5 @@ if __name__ == "__main__":
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\\nStopped.")
+        print("\nStopped.")
         server.server_close()
